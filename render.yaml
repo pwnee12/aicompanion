@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: aicompanion-backend
+    env: python
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 10000"
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: aicompanion-db
+          property: connectionString
+      - key: VECTOR_DB_TYPE
+        value: chroma
+      - key: CHROMA_DB_PATH
+        value: ./vector_db
+      - key: LLM_PROVIDER
+        value: ollama
+      - key: OLLAMA_BASE_URL
+        value: http://ollama-service:11434
+      - key: IMAGE_PROVIDER
+        value: replicate
+      - key: TTS_PROVIDER
+        value: edge
+      - key: TTS_DEFAULT_VOICE
+        value: es-ES-ElviraNeural
+      - key: API_HOST
+        value: 0.0.0.0
+      - key: API_PORT
+        value: 10000
+      - key: DEBUG
+        value: false
+
+databases:
+  - name: aicompanion-db
+    databaseName: aicompanion
+    user: aicompanion
+    plan: free

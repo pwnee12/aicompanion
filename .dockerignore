@@ -1,0 +1,27 @@
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/logs/
+backend/vector_db/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-electron/
+frontend/.env
+
+# General
+.git
+.gitignore
+*.md
+.qwen/
+logs/
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
