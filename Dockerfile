@@ -1,4 +1,4 @@
-# Backend Dockerfile - Optimizado para Render/Cloud
+# Backend Dockerfile - Optimizado para Railway/Cloud
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements primero para cachear dependencias
-COPY requirements.txt .
+# Copiar requirements desde backend/
+COPY backend/requirements.txt .
 
 # Instalar dependencias de Python con timeout mayor
 ENV PIP_DEFAULT_TIMEOUT=100
@@ -18,13 +18,13 @@ RUN pip install --no-cache-dir \
     --default-timeout=100 \
     -r requirements.txt
 
-# Copiar el código de la aplicación
-COPY app/ ./app/
+# Copiar el código de la aplicación desde backend/
+COPY backend/app/ ./app/
 
 # Crear directorios para assets y logs
 RUN mkdir -p /app/assets /app/logs /app/vector_db
 
-# Exponer puerto (Render usa 10000 por defecto)
+# Exponer puerto
 EXPOSE 10000
 
 # Health check
